@@ -34,7 +34,7 @@ wiki_agent/         # Agent code
 
 - [uv](https://docs.astral.sh/uv/) (Python package manager)
 - [Docker](https://www.docker.com/) (for PostgreSQL)
-- An API key for [Anthropic](https://console.anthropic.com/) or [OpenAI](https://platform.openai.com/)
+- An API key for [Anthropic](https://console.anthropic.com/), [OpenAI](https://platform.openai.com/), or [OpenRouter](https://openrouter.ai/)
 
 ## Setup
 
@@ -52,6 +52,9 @@ cp .env .env.local  # optional — edit .env directly
 # Or for OpenAI:
 #   LLM_PROVIDER=openai
 #   OPENAI_API_KEY=sk-...
+# Or for OpenRouter:
+#   LLM_PROVIDER=openrouter
+#   OPENROUTER_API_KEY=sk-or-...
 
 # 4. Start the agent
 uv run python -m wiki_agent.main
@@ -96,11 +99,16 @@ It scans for orphan pages, broken links, pages missing from the index, and other
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `LLM_PROVIDER` | `claude` | `claude` or `openai` |
-| `LLM_MODEL` | `claude-sonnet-4-20250514` | Model ID override |
+| `LLM_PROVIDER` | `claude` | `claude`, `openai`, or `openrouter` |
+| `LLM_MODEL` | per-provider default | Model ID override |
 | `ANTHROPIC_API_KEY` | — | Required if using Claude |
 | `OPENAI_API_KEY` | — | Required if using OpenAI |
+| `OPENROUTER_API_KEY` | — | Required if using OpenRouter |
 | `DATABASE_URL` | `postgresql+psycopg://ai:ai@localhost:5532/ai` | PostgreSQL connection |
+| `LANGFUSE_ENABLED` | `false` | Set to `true` to enable Langfuse tracing |
+| `LANGFUSE_PUBLIC_KEY` | — | Langfuse public key |
+| `LANGFUSE_SECRET_KEY` | — | Langfuse secret key |
+| `LANGFUSE_BASE_URL` | `https://cloud.langfuse.com` | Langfuse endpoint |
 
 ## Tips
 

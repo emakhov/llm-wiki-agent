@@ -20,7 +20,8 @@ The entire `knowledge-base/` directory is an Obsidian vault:
 
 ## Key Files
 
-- `wiki_agent/main.py` — AgentOS entry point, creates both agents + knowledge base, serves the app
+- `wiki_agent/main.py` — AgentOS entry point, initializes Langfuse tracing, creates both agents + knowledge base, serves the app
+- `wiki_agent/tracing.py` — Langfuse setup via OpenInference/OpenTelemetry (enabled by `LANGFUSE_ENABLED=true`)
 - `wiki_agent/agent.py` — Two agent factories: `create_query_agent()` (read-only wiki access) and `create_maintainer_agent()` (full read/write + ingest/lint)
 - `wiki_agent/config.py` — LLM provider selection via `LLM_PROVIDER` env var (claude/openai)
 - `wiki_agent/tools/wiki_tools.py` — Custom Toolkit: `list_sources`, `read_source`, `get_wiki_index`, `append_to_log`, `lint_wiki`. Sources dir is `knowledge-base/sources/`.
@@ -71,10 +72,13 @@ uv run python -m wiki_agent.main  # Start AgentOS at localhost:7777
 ```
 
 ## Environment Variables
-- `LLM_PROVIDER` — `claude` or `openai` (default: `claude`)
-- `LLM_MODEL` — Model ID override (default: `claude-sonnet-4-20250514` or `gpt-4o`)
-- `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` — API keys
+- `LLM_PROVIDER` — `claude`, `openai`, or `openrouter` (default: `claude`)
+- `LLM_MODEL` — Model ID override (default depends on provider: `claude-sonnet-4-20250514`, `gpt-4o`, or `anthropic/claude-sonnet-4`)
+- `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` / `OPENROUTER_API_KEY` — API keys
 - `DATABASE_URL` — PostgreSQL connection (default: `postgresql+psycopg://ai:ai@localhost:5532/ai`)
+- `LANGFUSE_ENABLED` — `true` to enable Langfuse tracing (default: `false`)
+- `LANGFUSE_PUBLIC_KEY` / `LANGFUSE_SECRET_KEY` — Langfuse API keys
+- `LANGFUSE_BASE_URL` — Langfuse endpoint (default: `https://cloud.langfuse.com`)
 
 ## Development Notes
 

@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 from agno.db.postgres import PostgresDb
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 from agno.knowledge.knowledge import Knowledge
@@ -6,6 +10,9 @@ from agno.vectordb.pgvector import PgVector, SearchType
 
 from wiki_agent.agent import create_maintainer_agent, create_query_agent
 from wiki_agent.config import get_db_url
+from wiki_agent.tracing import setup_langfuse
+
+setup_langfuse()
 
 db_url = get_db_url()
 

@@ -1,8 +1,11 @@
+import logging
 import os
 
 from dotenv import load_dotenv
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 
 def get_model():
@@ -13,16 +16,24 @@ def get_model():
         from agno.models.anthropic import Claude
 
         model_id = os.getenv("LLM_MODEL", "claude-sonnet-4-20250514")
-        return Claude(id=model_id)
+        model = Claude(id=model_id)
     elif provider == "openai":
         from agno.models.openai import OpenAIChat
 
         model_id = os.getenv("LLM_MODEL", "gpt-4o")
-        return OpenAIChat(id=model_id)
+        model = OpenAIChat(id=model_id)
+    elif provider == "openrouter":
+        from agno.models.openrouter import OpenRouter
+
+        model_id = os.getenv("LLM_MODEL", "anthropic/claude-sonnet-4")
+        model = OpenRouter(id=model_id)
     else:
         raise ValueError(
-            f"Unknown LLM_PROVIDER: {provider}. Use 'claude' or 'openai'."
+            f"Unknown LLM_PROVIDER: {provider}. Use 'claude', 'openai', or 'openrouter'."
         )
+
+    logger.info("Using LLM provider=%s model=%s", provider, model_id)
+    return model
 
 
 def get_db_url() -> str:
