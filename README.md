@@ -2,7 +2,7 @@
 
 A personal knowledge base maintained by an AI agent. You add source documents, the agent builds and maintains a structured, interlinked wiki of markdown files.
 
-Built with [Agno](https://github.com/agno-agi/agno) and [AgentOS](https://docs.agno.com/agent-os/overview).
+Inspired by Andrej Karpathy's [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) concept. Built with [Agno](https://github.com/agno-agi/agno) and [AgentOS](https://docs.agno.com/agent-os/overview).
 
 ## How it works
 
@@ -57,13 +57,15 @@ cp .env .env.local  # optional — edit .env directly
 uv run python -m wiki_agent.main
 ```
 
-Open [http://localhost:7777](http://localhost:7777) to interact with the Wiki Agent.
+Open [http://localhost:7777](http://localhost:7777) — you'll see two agents:
+- **Query Agent** — answers questions from the wiki (read-only)
+- **Maintainer Agent** — ingests sources, creates/updates pages, lints the wiki
 
 ## Usage
 
 ### Ingest a source
 
-Drop a markdown file into `knowledge-base/sources/`, then tell the agent:
+Drop a markdown file into `knowledge-base/sources/`, then tell the **Maintainer Agent**:
 
 > Ingest article-title.md
 
@@ -76,7 +78,7 @@ The agent will:
 
 ### Query the wiki
 
-Ask any question:
+Open the **Query Agent** and ask any question:
 
 > What are the key differences between X and Y?
 
@@ -84,9 +86,11 @@ The agent searches the wiki index, reads relevant pages, and synthesizes an answ
 
 ### Lint the wiki
 
+Tell the **Maintainer Agent**:
+
 > Lint the wiki
 
-The agent scans for orphan pages, broken links, pages missing from the index, and other issues.
+It scans for orphan pages, broken links, pages missing from the index, and other issues.
 
 ## Configuration
 

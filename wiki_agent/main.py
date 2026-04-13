@@ -4,12 +4,13 @@ from agno.knowledge.knowledge import Knowledge
 from agno.os import AgentOS
 from agno.vectordb.pgvector import PgVector, SearchType
 
-from wiki_agent.agent import create_wiki_agent
+from wiki_agent.agent import create_maintainer_agent, create_query_agent
 from wiki_agent.config import get_db_url
 
 db_url = get_db_url()
 
-wiki_agent = create_wiki_agent()
+query_agent = create_query_agent()
+maintainer_agent = create_maintainer_agent()
 
 # Vector knowledge base for semantic search over wiki content
 wiki_knowledge = Knowledge(
@@ -30,7 +31,7 @@ wiki_knowledge = Knowledge(
 
 agent_os = AgentOS(
     description="LLM Wiki — Personal Knowledge Base",
-    agents=[wiki_agent],
+    agents=[query_agent, maintainer_agent],
     knowledge=[wiki_knowledge],
 )
 

@@ -20,11 +20,11 @@ The entire `knowledge-base/` directory is an Obsidian vault:
 
 ## Key Files
 
-- `wiki_agent/main.py` — AgentOS entry point, creates agent + knowledge base, serves the app
-- `wiki_agent/agent.py` — Agent definition with FileTools (wiki read/write) + WikiTools (sources, log, lint)
+- `wiki_agent/main.py` — AgentOS entry point, creates both agents + knowledge base, serves the app
+- `wiki_agent/agent.py` — Two agent factories: `create_query_agent()` (read-only wiki access) and `create_maintainer_agent()` (full read/write + ingest/lint)
 - `wiki_agent/config.py` — LLM provider selection via `LLM_PROVIDER` env var (claude/openai)
 - `wiki_agent/tools/wiki_tools.py` — Custom Toolkit: `list_sources`, `read_source`, `get_wiki_index`, `append_to_log`, `lint_wiki`. Sources dir is `knowledge-base/sources/`.
-- `wiki_agent/prompts/instructions.py` — Agent instructions for ingest/query/lint workflows
+- `wiki_agent/prompts/instructions.py` — Separate instruction sets: `QUERY_AGENT_INSTRUCTIONS` and `MAINTAINER_AGENT_INSTRUCTIONS`
 - `knowledge-base/index.md` — Wiki page catalog (table: Page | Type | Summary | Last Updated)
 - `knowledge-base/log.md` — Append-only operations log
 
